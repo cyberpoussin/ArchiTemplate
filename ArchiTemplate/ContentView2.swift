@@ -50,6 +50,9 @@
 //
 //// MARK: Store
 //
+//
+//
+//
 //class ItemStore {
 //    // Output
 //    @Published private(set) var state: [Item]
@@ -57,37 +60,45 @@
 //    // Input
 //    enum Input {
 //        case add(Item)
-//        case remove(Item)
-//        case updateScore(UUID, Int)
-//        case updateDate(UUID, Date)
+//        case delete(Item)
+//        case refresh(Item)
 //        case initialize([Item])
 //    }
+//    
+//    // Action
+//    enum Action {
+//        case append(Item)
+//        case remove(Item)
+//        case set([Item])
 //
-//    private var input = PassthroughSubject<Input, Never>()
+//        case updateScore(UUID, Int)
+//        case updateDate(UUID, Date)
+//    }
+//    
+//    enum SideEffect {
+//        case fillItem(Item)
+//        case fillItems([Item])
+//    }
+//
+//    private var action = PassthroughSubject<Action?, Never>()
+//    private var sideEffect = PassthroughSubject<SideEffect?, Never>()
+//
+//
 //    private var bag = Set<AnyCancellable>()
 //    init(initialValue: [Item] = []) {
 //        state = initialValue
 //        let provider = ItemProvider()
 //        
-//        let fillItem: (Item) -> AnyPublisher<Input?, Never> = { item in
-//            let fetchScore = provider.fetchScore()
-//                .map { Input.updateScore(item.id, $0) }
-//                .replaceError(with: nil)
-//            let fetchDate = provider.fetchDate()
-//                .map { Input.updateDate(item.id, $0) }
-//                .replaceError(with: nil)
-//            return Publishers.Merge(fetchDate, fetchScore)
-//                .eraseToAnyPublisher()
-//        }
-//        
-//        
-//        input
-//            .scan(initialValue) { currentState, input in
-//                switch input {
-//                case let .add(item):
+//        action
+//            .scan(initialValue) { currentState, action in
+//                guard let action = action else { return currentState }
+//                switch action {
+//                case let .append(item):
 //                    return currentState + [item]
 //                case let .remove(item):
 //                    return currentState.filter { $0.id != item.id }
+//                case let .set(items):
+//                    return items
 //                case let .updateDate(id, date):
 //                    return currentState.map {item in
 //                        guard item.id == id else {return item}
@@ -102,40 +113,61 @@
 //                        newItem.score = score
 //                        return newItem
 //                    }
-//                case let .initialize(items):
-//                    return items
-//                default:
-//                    return currentState
 //                }
 //            }
 //            .assign(to: &$state)
-//
-//        input.zip($state.dropFirst())
-//            .flatMap { input, _ -> AnyPublisher<Input?, Never> in
-//                switch input {
-//                case let .add(item):
-//                    return fillItem(item)
-//                case let .initialize(items):
+//        
+//        sideEffect
+//            .zip($state.dropFirst())
+//            .compactMap { $0.0 }
+//            .flatMap { [fetchItemInfos] sideEffect -> AnyPublisher<Action?, Never> in
+//                switch sideEffect {
+//                case let .fillItem(item):
+//                    return fetchItemInfos(item, provider)
+//                case let .fillItems(items):
 //                    return items.publisher
 //                        .flatMap {
-//                           fillItem($0)
+//                            fetchItemInfos($0, provider)
 //                        }
 //                        .eraseToAnyPublisher()
-//                default: return Just(nil).eraseToAnyPublisher()
 //                }
+//                
 //            }
 //            .compactMap { $0 }
-//            .sink { [weak self] in self?.input.send($0) }
+//            .sink { [weak self] in self?.action.send($0) }
 //            .store(in: &bag)
 //        
 //        
 //    }
 //
 //    func send(_ input: Input) {
-//        self.input.send(input)
+//        switch input {
+//        case .add(let item):
+//            launch(.append(item), then: .fillItem(item))
+//        case .delete(let item):
+//            launch(.remove(item))
+//        case .refresh(let item):
+//            launch(nil, then: .fillItem(item))
+//        case .initialize(let array):
+//            launch(.set(array), then: .fillItems(array))
+//        }
 //    }
 //    
-//
+//    func launch(_ action: Action?, then sideEffect: SideEffect? = nil) {
+//        self.action.send(action)
+//        self.sideEffect.send(sideEffect)
+//    }
+//    
+//    func fetchItemInfos(_ item: Item, with provider: ItemProvider) -> AnyPublisher<Action?, Never>{
+//        let fetchScore = provider.fetchScore()
+//            .map { Action.updateScore(item.id, $0) }
+//            .replaceError(with: nil)
+//        let fetchDate = provider.fetchDate()
+//            .map { Action.updateDate(item.id, $0) }
+//            .replaceError(with: nil)
+//        return Publishers.Merge(fetchDate, fetchScore)
+//            .eraseToAnyPublisher()
+//    }
 //}
 //
 //class ContentViewModel: ObservableObject {
@@ -163,7 +195,7 @@
 //    }
 //}
 //
-//struct ContentView: View {
+//struct ContentView2: View {
 //    @StateObject private var vm: ContentViewModel
 //    init(vm: ContentViewModel) {
 //        _vm = StateObject(wrappedValue: vm)
@@ -188,9 +220,9 @@
 //    }
 //}
 //
-//struct ContentView_Previews: PreviewProvider {
+//struct ContentView2_Previews: PreviewProvider {
 //    static var previews: some View {
-//        ContentView(vm: ContentViewModel(store: ItemStore(initialValue:[])))
+//        ContentView2(vm: ContentViewModel(store: ItemStore(initialValue:[])))
 //    }
 //}
 //

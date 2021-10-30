@@ -14,6 +14,10 @@
 		840F110727240C0F00B311E0 /* ArchiTemplateTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 840F110627240C0F00B311E0 /* ArchiTemplateTests.swift */; };
 		840F111127240C0F00B311E0 /* ArchiTemplateUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 840F111027240C0F00B311E0 /* ArchiTemplateUITests.swift */; };
 		840F111327240C0F00B311E0 /* ArchiTemplateUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 840F111227240C0F00B311E0 /* ArchiTemplateUITestsLaunchTests.swift */; };
+		840F112027243C1A00B311E0 /* ContentView2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 840F111F27243C1A00B311E0 /* ContentView2.swift */; };
+		840F112227244CC900B311E0 /* ContentView3.swift in Sources */ = {isa = PBXBuildFile; fileRef = 840F112127244CC900B311E0 /* ContentView3.swift */; };
+		840F11242726BA8100B311E0 /* ContentView4.swift in Sources */ = {isa = PBXBuildFile; fileRef = 840F11232726BA8100B311E0 /* ContentView4.swift */; };
+		840F11262727F72700B311E0 /* Publishers+extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 840F11252727F72600B311E0 /* Publishers+extension.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -44,6 +48,10 @@
 		840F110C27240C0F00B311E0 /* ArchiTemplateUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ArchiTemplateUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		840F111027240C0F00B311E0 /* ArchiTemplateUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArchiTemplateUITests.swift; sourceTree = "<group>"; };
 		840F111227240C0F00B311E0 /* ArchiTemplateUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArchiTemplateUITestsLaunchTests.swift; sourceTree = "<group>"; };
+		840F111F27243C1A00B311E0 /* ContentView2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView2.swift; sourceTree = "<group>"; };
+		840F112127244CC900B311E0 /* ContentView3.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView3.swift; sourceTree = "<group>"; };
+		840F11232726BA8100B311E0 /* ContentView4.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView4.swift; sourceTree = "<group>"; };
+		840F11252727F72600B311E0 /* Publishers+extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Publishers+extension.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -96,6 +104,10 @@
 			children = (
 				840F10F527240C0C00B311E0 /* ArchiTemplateApp.swift */,
 				840F10F727240C0C00B311E0 /* ContentView.swift */,
+				840F111F27243C1A00B311E0 /* ContentView2.swift */,
+				840F112127244CC900B311E0 /* ContentView3.swift */,
+				840F11232726BA8100B311E0 /* ContentView4.swift */,
+				840F11252727F72600B311E0 /* Publishers+extension.swift */,
 				840F10F927240C0F00B311E0 /* Assets.xcassets */,
 				840F10FB27240C0F00B311E0 /* Preview Content */,
 			);
@@ -257,7 +269,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				840F112027243C1A00B311E0 /* ContentView2.swift in Sources */,
 				840F10F827240C0C00B311E0 /* ContentView.swift in Sources */,
+				840F11262727F72700B311E0 /* Publishers+extension.swift in Sources */,
+				840F112227244CC900B311E0 /* ContentView3.swift in Sources */,
+				840F11242726BA8100B311E0 /* ContentView4.swift in Sources */,
 				840F10F627240C0C00B311E0 /* ArchiTemplateApp.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

@@ -11,7 +11,8 @@ import SwiftUI
 struct ArchiTemplateApp: App {
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            ContentView2(vm: ContentViewModel(store: ItemStore(initialValue: [])))
+            
         }
     }
 }

@@ -1,10 +1,3 @@
-//
-//  ContentView.swift
-//  ArchiTemplate
-//
-//  Created by Admin on 23/10/2021.
-//
-
 import Combine
 import SwiftUI
 
